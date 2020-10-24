@@ -76,6 +76,9 @@ object Main {
 
     }
 
+    def zad4(x : Int, f: Int => Int):Int = f(f(f(x)))
+    def foo_for_4(n: Int):Int = n * 2
+
 
 
     def main(args: Array[String]):Unit ={
@@ -90,6 +93,9 @@ object Main {
 
       println("\n====== ZADANIE 3 ======")
       zad3()
+
+      println("\n====== ZADANIE 4 ======")
+      println("Wynik: " + zad4(2, foo_for_4))
     }
 
 
