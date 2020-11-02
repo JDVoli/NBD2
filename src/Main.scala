@@ -12,9 +12,9 @@ object Main {
       case _ => "Nie ma takiego dnia"
     }
 
-    class KontoBankowe(stanPoczatkowy: Double)
+    class KontoBankowe(val stanPoczatkowy: Double)
     {
-      private var stanKonta = stanPoczatkowy
+      private var _stanKonta = stanPoczatkowy
 
       def this()
       {
@@ -23,35 +23,35 @@ object Main {
 
       def wplata(wplata: Double)
       {
-        stanKonta += wplata
+        _stanKonta += wplata
       }
 
       def wyplata(wyplata: Double)
       {
-        if(wyplata <= stanKonta)
+        if(wyplata <= _stanKonta)
         {
-          stanKonta -= wyplata
+          _stanKonta -= wyplata
         }
 
       }
 
-      def getStanKonta : Double = stanKonta
+      def stanKonta : Double = _stanKonta
     }
 
     def zad2(){
 
       println("Poczatkowy stan konta bankowego wynosi: 1000")
       val k1 = new KontoBankowe(1000)
-      println("Pobranie stanu konta : " + k1.getStanKonta)
+      println("Pobranie stanu konta : " + k1.stanKonta)
       k1.wplata(100)
       println("Następuje wpłata w wysokości 100")
-      println("Pobranie stanu konta : " + k1.getStanKonta)
+      println("Pobranie stanu konta : " + k1.stanKonta)
       k1.wyplata(50)
       println("Następuje wypłata w wysokości 50")
-      println("Pobranie stanu konta : " + k1.getStanKonta)
+      println("Pobranie stanu konta : " + k1.stanKonta)
       println("Następuje wypłata w wysokości 2500")
       k1.wyplata(2500)
-      println("Pobranie stanu konta : " + k1.getStanKonta)
+      println("Pobranie stanu konta : " + k1.stanKonta)
     }
 
     case class Osoba(imie: String, nazwisko: String)
@@ -79,6 +79,28 @@ object Main {
     def zad4(x : Int, f: Int => Int):Int = f(f(f(x)))
     def foo_for_4(n: Int):Int = n * 2
 
+    class Person(val firstName: String, val lastName: String){
+      private var _tax : Double = 0
+      def tax : Double = _tax
+    }
+
+    trait Student extends Person{
+      override def tax: Double = 0
+    }
+
+    trait Pracownik extends Person{
+      private var _pensja : Double = 0
+
+      def pensja : Double = _pensja
+      def pensja_= (value:Double):Unit=_pensja=value
+
+      override def tax: Double = _pensja * 0.2
+    }
+
+    trait Nauczyciel extends Pracownik{
+      override def tax : Double = pensja * 0.1
+
+    }
 
 
     def main(args: Array[String]):Unit ={
@@ -96,6 +118,20 @@ object Main {
 
       println("\n====== ZADANIE 4 ======")
       println("Wynik: " + zad4(2, foo_for_4))
+
+      println("\n====== ZADANIE 5 ======")
+
+      val stud = new Person("Paweł", "Pawłowski") with Student
+      val prac = new Person("Ala", "Alowska") with Pracownik
+      prac.pensja = 4000
+
+      val naucz = new Person("Daniel", "Jabłoński") with Nauczyciel
+      naucz.pensja = 4000
+
+      println("Student: " + stud.firstName + " " + stud.lastName + " musi zapłacić: "  + stud.tax + " Simoleonów podatku")
+      println("Pracownik: " + prac.firstName + " " + prac.lastName + " musi zapłacić: "  + prac.tax + " Simoleonów podatku")
+      println("Nauczyciel: " + naucz.firstName + " " + naucz.lastName + " musi zapłacić: "  + naucz.tax + " Simoleonów podatku")
+
     }
 
 
