@@ -132,6 +132,13 @@ object Main {
       println("Pracownik: " + prac.firstName + " " + prac.lastName + " musi zapłacić: "  + prac.tax + " Simoleonów podatku")
       println("Nauczyciel: " + naucz.firstName + " " + naucz.lastName + " musi zapłacić: "  + naucz.tax + " Simoleonów podatku")
 
+      val tr1 = new Person("Jan", "Janowski") with Student with Pracownik
+      tr1.pensja = 10000
+      println("\nNajpierw trait Student potem Pracownik - podatek: "+tr1.tax + " z pensji: " + tr1.pensja)
+
+      val tr2 = new Person("Klaudiusz", "Sevković") with Pracownik with Student
+      tr2.pensja = 8000
+      println("Najpierw trait Pracownik potem Student - podatek: " + tr2.tax + "z pensji: " + tr2.pensja)
     }
 
 
